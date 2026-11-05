@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>黃色計程車・3D 組裝</title>
+<link rel="stylesheet" href="styles.css?v=3">
+<script type="importmap">{"imports":{"three":"./vendor/three/build/three.module.js","three/addons/":"./vendor/three/examples/jsm/"}}</script>
+</head>
+<body>
+<main class="lesson">
+<header><a class="brand" href="./"><span class="brand-icon">▦</span> BRICK LAB <small>Yellow Taxi 3D Assembly Guide</small></a><span class="edition" id="edition">01 / 底盤連接</span></header>
+<div class="progress-row"><span id="stepLabel">準備開始</span><div id="progress" role="progressbar" aria-label="組裝進度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i></i></div><span id="percent">0%</span></div>
+<section id="viewport" aria-label="可旋轉及縮放的 3D 底盤">
+<div class="viewport-label"><span class="dot"></span> 3D 組裝工作台 <small id="partsLabel">4 × 連接零件</small></div>
+<div id="welcome" class="overlay"><div class="welcome-card"><span class="eyebrow">林英斌老師的多元智能課 · 以樂高黃色計程車套組為例</span><h1>讓每個零件<br>找到它的位置。</h1><p>連接零件、安裝底板、組合後方模組。<br>轉動底盤，看看它們如何組合。</p><button id="start" class="primary" disabled>載入 3D 中…</button><p id="loadStatus" role="status">正在載入 3D</p></div></div>
+<div id="done" class="overlay" hidden><div class="complete-card"><span class="check">✓</span><h1>組裝完成</h1><p>組裝中，持續更新：目前做到這一步。</p><button id="doneRestart">再練習一次</button></div></div>
+<div class="gesture">拖曳旋轉 · 滾輪縮放 · 雙指捏合</div>
+<a id="reference" class="reference manual-link" href="https://www.lego.com/service/building-instructions" target="_blank" rel="noopener" hidden><span>樂高官方說明書 p.<b id="pageNumber">10</b> ↗</span></a>
+</section>
+<section class="lesson-footer"><div class="copy" aria-live="polite"><span id="stepNumber" class="eyebrow">準備開始</span><h2 id="title">探索零件之間的連接</h2><p id="subtitle">按下「開始組裝」，從底盤連接開始。</p></div><div class="controls"><button id="previous" disabled>← 上一步</button><button id="replay" disabled>↻ 重播</button><button id="next" class="primary" disabled>繼續 →</button><button id="finish" class="primary" hidden>完成 ✓</button></div></section>
+<footer><div class="utility"><button id="restart" disabled>重新開始</button><button id="resetView" disabled>重設視角</button></div><div class="audio"><button id="mute" aria-pressed="false">音樂：開</button><label for="volume">音量</label><input id="volume" type="range" min="0" max="100" value="20" aria-label="背景音樂音量"><span id="audioStatus" role="status"></span></div></footer>
+</main>
+<canvas id="confetti" aria-hidden="true"></canvas>
+<script type="module" src="src/main.js"></script>
+</body></html>

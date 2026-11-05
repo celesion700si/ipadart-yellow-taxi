@@ -1,0 +1,52 @@
+// Page 22–37 additions. These are authored data using the existing PLACE contract.
+const pose=position=>({position,rotation:[0,0,0]});
+const reference=page=>({page,src:`public/instructions/page-${String(page).padStart(3,'0')}.png`});
+function placement({id,title,pages,edition,label,parts,before,after,headings,words,duration=1500,windows}){
+  return {id,title,sourcePages:pages,actionType:'place',placementDirection:[0,-1,0],guides:[],parts,
+    states:['before','after'],initialState:'before',completionState:'after',
+    transforms:Object.fromEntries(parts.map((id,i)=>[id,{before:pose(before[i]),after:pose(after[i])}])),
+    animationStages:[{id:`place-${id}`,kind:'place',from:'before',to:'after',duration,easing:'smoothstep',tracks:parts,...(windows?{windows}:{})}],
+    edition,partsLabel:label,stateLabels:{before:'準備組裝',after:'安裝完成'},
+    headings:{before:headings[0],after:headings[1]},narration:{before:words[0],after:words[1]},subtitle:{before:words[0],after:words[1]},
+    thumbnail:{before:reference(pages[0]),after:reference(pages.at(-1))},cameraFraming:{target:[0,1.2,-0.5],position:[12,13,18]}};
+}
+export const batchSegments=[
+  placement({id:'rear-seat-cushion',title:'Rear Seat Cushion',pages:[22,23],edition:'06 / 後方座墊',label:'1 × 棕色弧面零件',
+    parts:['rear-seat-cushion'],before:[[0,3.4,-1.8]],after:[[0,0.58,-1.8]],
+    headings:['準備棕色弧面零件','將棕色座墊裝到灰色板件前方'],
+    words:['準備棕色弧面零件，將較高的一側朝向灰色板件。','對準灰色板件前方的底板，將棕色座墊向下壓入定位。']}),
+  placement({id:'rear-wheel-arches',title:'Rear Wheel Arches',pages:[24,25],edition:'07 / 後輪拱',label:'2 × 黃色輪拱',
+    parts:['rear-arch-left','rear-arch-right'],before:[[-1.6,3.8,-3.2],[1.6,3.8,-3.2]],after:[[-1.6,0.34,-3.2],[1.6,0.34,-3.2]],
+    headings:['準備兩個黃色輪拱','將輪拱裝到底盤後方兩側'],
+    words:['準備兩個黃色輪拱，讓拱形開口朝向車體外側。','對準後方兩側的連接位置，將兩個輪拱向下壓入定位。']}),
+  placement({id:'rear-lights-trim',title:'Rear Lights and Trim',pages:[26,27],edition:'08 / 尾燈與飾板',label:'2 × 紅色尾燈板 · 1 × 黑色飾板',
+    parts:['tail-light-left','tail-light-right','tail-trim'],before:[[-1.2,4.6,-4],[1.2,4.6,-4],[0,4.6,-4.4]],after:[[-1.2,3.2,-4],[1.2,3.2,-4],[0,3.2,-4.4]],
+    headings:['準備兩片尾燈與黑色飾板','將尾燈與飾板裝到後方頂部'],
+    words:['準備兩片紅色尾燈板和一片黑色飾板，對準車尾的位置。','把紅色尾燈板放在左右兩側，再將黑色飾板壓入中央。'],duration:1800,windows:{'tail-light-left':[0,0.6],'tail-light-right':[0,0.6],'tail-trim':[0.6,1]}}),
+  placement({id:'tail-light-corners',title:'Tail Light Corner Tiles',pages:[28,29],edition:'09 / 尾燈角片',label:'2 × 紅色斜角片',
+    parts:['tail-corner-left','tail-corner-right'],before:[[-2,4.5,-4],[2,4.5,-4]],after:[[-2,3.2,-4],[2,3.2,-4]],
+    headings:['準備左右兩片尾燈角片','將紅色角片裝到尾燈外側'],
+    words:['準備兩片紅色斜角片，確認左右兩側的斜邊方向。','將斜角片對準尾燈外側，依序向下壓入兩側的定位點。'],duration:1600,
+    windows:{'tail-corner-right':[0,0.5],'tail-corner-left':[0.5,1]}}),
+  placement({id:'rear-support-plates',title:'Rear Support Plates',pages:[30,31],edition:'10 / 後方支撐板',label:'2 × 灰色三凸點長板',
+    parts:['rear-support-left','rear-support-right'],before:[[-1.2,4.6,-2],[1.2,4.6,-2]],after:[[-1.2,3.2,-2],[1.2,3.2,-2]],
+    headings:['準備兩片灰色長板','將灰色長板裝到後方兩側'],
+    words:['準備兩片灰色長板，沿著車身前後方向對齊。','將長板放到灰色直立板件的左右兩側，向下壓入定位。']}),
+  placement({id:'side-round-plates',title:'Side Round Plates',pages:[32,33],edition:'11 / 圓形定位片',label:'4 × 灰色圓形薄片',
+    parts:['round-left-front','round-right-front','round-left-rear','round-right-rear'],
+    before:[[-1.4,3,1.92],[1.4,3,1.92],[-1.4,3,-1.92],[1.4,3,-1.92]],after:[[-1.4,1.05,1.92],[1.4,1.05,1.92],[-1.4,1.05,-1.92],[1.4,1.05,-1.92]],
+    headings:['準備四個灰色圓形薄片','將圓形薄片裝到底盤兩側'],
+    words:['準備四個灰色圓形薄片，找到左右兩側的四個位置。','將圓形薄片對準底盤兩側的凸點，向下壓入定位。']}),
+  placement({id:'side-brackets',title:'Side Mounting Brackets',pages:[34,35],edition:'12 / 車側支架',label:'4 × 灰色直角支架',
+    parts:['bracket-left-front','bracket-left-rear','bracket-right-front','bracket-right-rear'],
+    before:[[-1.4,3.5,0.8],[-1.4,3.5,-0.8],[1.4,3.5,0.8],[1.4,3.5,-0.8]],after:[[-1.4,1.05,0.8],[-1.4,1.05,-0.8],[1.4,1.05,0.8],[1.4,1.05,-0.8]],
+    headings:['準備四個灰色直角支架','將支架裝到底盤中段兩側'],
+    words:['準備四個灰色直角支架，讓有四個凸點的面朝外。','在底盤中段每側放入兩個支架，向下壓好並排整齊。']}),
+  placement({id:'side-panels-jumpers',title:'Side Panels and Jumper Plates',pages:[36,37],edition:'13 / 側邊護板',label:'4 × 灰色護板 · 2 × 棕色中央凸點板',
+    parts:['side-panel-left-front','side-panel-left-rear','side-panel-right-front','side-panel-right-rear','jumper-left','jumper-right'],
+    before:[[-1.4,3.8,1.6],[-1.4,3.8,-1.6],[1.4,3.8,1.6],[1.4,3.8,-1.6],[-1.4,3.8,0],[1.4,3.8,0]],
+    after:[[-1.4,1.29,1.6],[-1.4,1.29,-1.6],[1.4,1.29,1.6],[1.4,1.29,-1.6],[-1.4,1.29,0],[1.4,1.29,0]],
+    headings:['準備灰色護板與棕色小板','完成車體兩側的護板排列'],
+    words:['準備四片灰色護板和兩片棕色小板，分別對齊左右兩側。','先放好兩側前後的灰色護板，再將棕色小板壓入中間。'],duration:1800,
+    windows:{'side-panel-left-front':[0,0.65],'side-panel-left-rear':[0,0.65],'side-panel-right-front':[0,0.65],'side-panel-right-rear':[0,0.65],'jumper-left':[0.65,1],'jumper-right':[0.65,1]}})
+];
